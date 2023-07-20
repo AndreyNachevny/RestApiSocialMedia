@@ -1,13 +1,12 @@
 package social.medai.api.RestApiSocialMedia.controllers;
 
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import social.medai.api.RestApiSocialMedia.Exception.*;
+import social.medai.api.RestApiSocialMedia.exception.*;
 import social.medai.api.RestApiSocialMedia.dto.PhotoDTO;
 import social.medai.api.RestApiSocialMedia.dto.PostDTO;
 import social.medai.api.RestApiSocialMedia.dto.PostDTOResponse;

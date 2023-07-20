@@ -3,11 +3,10 @@ package social.medai.api.RestApiSocialMedia.services;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import social.medai.api.RestApiSocialMedia.Exception.NotFoundException;
+import social.medai.api.RestApiSocialMedia.exception.NotFoundException;
 import social.medai.api.RestApiSocialMedia.dto.PhotoDTO;
 import social.medai.api.RestApiSocialMedia.dto.PostDTO;
 import social.medai.api.RestApiSocialMedia.dto.PostDTOResponse;

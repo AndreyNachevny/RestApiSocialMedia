@@ -1,4 +1,4 @@
-package social.medai.api.RestApiSocialMedia.Exception;
+package social.medai.api.RestApiSocialMedia.exception;
 
 public class NotCreatedException extends RuntimeException{
     public NotCreatedException(String message){

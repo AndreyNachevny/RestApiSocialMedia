@@ -1,4 +1,4 @@
-package social.medai.api.RestApiSocialMedia.Exception;
+package social.medai.api.RestApiSocialMedia.exception;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;

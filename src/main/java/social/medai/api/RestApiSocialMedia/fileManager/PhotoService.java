@@ -1,7 +1,6 @@
 package social.medai.api.RestApiSocialMedia.fileManager;
 
-import org.springframework.stereotype.Component;
-import social.medai.api.RestApiSocialMedia.Exception.NotCreatedException;
+import social.medai.api.RestApiSocialMedia.exception.NotCreatedException;
 import social.medai.api.RestApiSocialMedia.dto.PhotoDTO;
 
 import java.io.*;

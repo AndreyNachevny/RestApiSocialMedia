@@ -17,9 +17,9 @@ import social.medai.api.RestApiSocialMedia.models.User;
 import social.medai.api.RestApiSocialMedia.security.AuthService;
 import social.medai.api.RestApiSocialMedia.dto.JWTResponse;
 import social.medai.api.RestApiSocialMedia.services.UserService;
-import social.medai.api.RestApiSocialMedia.Exception.CheckException;
-import social.medai.api.RestApiSocialMedia.Exception.ErrorResponse;
-import social.medai.api.RestApiSocialMedia.Exception.NotCreatedException;
+import social.medai.api.RestApiSocialMedia.exception.CheckException;
+import social.medai.api.RestApiSocialMedia.exception.ErrorResponse;
+import social.medai.api.RestApiSocialMedia.exception.NotCreatedException;
 import social.medai.api.RestApiSocialMedia.util.RegistrationUserValidator;
 
 

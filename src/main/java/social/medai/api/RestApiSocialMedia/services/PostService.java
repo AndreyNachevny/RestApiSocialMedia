@@ -5,7 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import social.medai.api.RestApiSocialMedia.Exception.OperationFailed;
+import social.medai.api.RestApiSocialMedia.exception.OperationFailed;
 import social.medai.api.RestApiSocialMedia.dto.PostDTO;
 import social.medai.api.RestApiSocialMedia.fileManager.PhotoService;
 import social.medai.api.RestApiSocialMedia.models.Photo;
