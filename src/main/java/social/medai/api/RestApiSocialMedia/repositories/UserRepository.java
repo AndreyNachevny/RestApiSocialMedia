@@ -14,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u.password FROM User u")
     List<String> getAllPassword();
+
 }

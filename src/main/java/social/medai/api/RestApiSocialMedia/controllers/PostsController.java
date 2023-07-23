@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import social.medai.api.RestApiSocialMedia.exception.*;
 import social.medai.api.RestApiSocialMedia.dto.PhotoDTO;
 import social.medai.api.RestApiSocialMedia.dto.PostDTO;
-import social.medai.api.RestApiSocialMedia.dto.PostDTOResponse;
+import social.medai.api.RestApiSocialMedia.dto.ListPostDTOResponse;
 import social.medai.api.RestApiSocialMedia.services.PostService;
 import social.medai.api.RestApiSocialMedia.services.UserService;
 import social.medai.api.RestApiSocialMedia.util.PhotoValidator;
@@ -28,20 +28,14 @@ public class PostsController {
     @PostMapping("/create")
     public ResponseEntity<HttpStatus> createPost(@RequestBody @Valid PostDTO postDTO,
                                                  BindingResult bindingResult){
-        postValidator.validate(postDTO,bindingResult);
-        if(postDTO.getPhotos() != null){
-            for(PhotoDTO photoDTO:postDTO.getPhotos()){
-                photoValidator.validate(photoDTO,bindingResult);
-            }
-        }
-        CheckException.checkException(bindingResult);
+        validatePostsSaveOrUpdate(postDTO,bindingResult);
         postService.createPost(postDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PostDTOResponse> getPostsByUserId(@PathVariable(value = "id", required = false) int id){
-        return ResponseEntity.ok(userService.getPostsById(id));
+    @GetMapping("/user/{id}")
+    public ResponseEntity<ListPostDTOResponse> getPostsByUserId(@PathVariable(value = "id", required = false) int id){
+        return ResponseEntity.ok(userService.getPostsByUserId(id));
     }
 
     @DeleteMapping("/{id}")
@@ -54,6 +48,12 @@ public class PostsController {
     public HttpStatus updatePost(@PathVariable("id") int id,
                                  @RequestBody @Valid PostDTO postDTO,
                                  BindingResult bindingResult){
+       // validatePostsSaveOrUpdate(postDTO,bindingResult);
+        postService.updatePost(postDTO,id);
+        return HttpStatus.OK;
+    }
+
+    private void validatePostsSaveOrUpdate(PostDTO postDTO, BindingResult bindingResult){
 
         postValidator.validate(postDTO,bindingResult);
         if(postDTO.getPhotos() != null){
@@ -62,10 +62,7 @@ public class PostsController {
             }
         }
         CheckException.checkException(bindingResult);
-
-        return null;
     }
-
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handOperationFailed(OperationFailed operationFailed){
         ErrorResponse response = new ErrorResponse(

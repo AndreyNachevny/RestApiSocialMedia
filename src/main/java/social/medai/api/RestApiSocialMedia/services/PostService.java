@@ -59,8 +59,10 @@ public class PostService {
                 .equals(postRepository.getReferenceById(id).getUser().getEmail())){
             throw new OperationFailed("You do not have permission to update this post");
         }
+        Post postFromDatabase = postRepository.getReferenceById(id);
         Post postToUpdate = modelMapper.map(postDTO,Post.class);
         postToUpdate.setId(id);
-
+        postToUpdate.setCreatedAt(postFromDatabase.getCreatedAt());
+        postRepository.save(postToUpdate);
     }
 }

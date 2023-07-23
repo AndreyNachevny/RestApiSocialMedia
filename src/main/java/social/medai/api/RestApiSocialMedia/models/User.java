@@ -45,4 +45,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Friend> friends;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Follower> followers;
+
 }
