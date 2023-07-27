@@ -17,6 +17,7 @@ import social.medai.api.RestApiSocialMedia.models.*;
 import social.medai.api.RestApiSocialMedia.repositories.FollowerRepository;
 import social.medai.api.RestApiSocialMedia.repositories.FriendRepository;
 import social.medai.api.RestApiSocialMedia.repositories.UserRepository;
+import social.medai.api.RestApiSocialMedia.util.PostMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final FollowerRepository followerRepository;
     private final FriendRepository friendRepository;
+    private final PostMapper postMapper;
 
     @Transactional
     public void registration(User user){
@@ -54,24 +56,7 @@ public class UserService {
         List<Post> posts = user.getPosts();
         List<PostDTOResponse> postDTOResponseList = new ArrayList<>();
         for (Post post:posts){
-
-            PostDTOResponse postDTO = modelMapper.map(post,PostDTOResponse.class);
-
-            if(post.getPhotos() != null){
-
-                List<PhotoDTO> photoDTOList = new ArrayList<>();
-
-                for(Photo photo:post.getPhotos()) {
-
-                    PhotoDTO photoDTO = new PhotoDTO();
-
-                    photoDTO.setFile(PhotoService.getPhotos(photo.getPath()));
-                    photoDTO.setName(photo.getName());
-                    photoDTOList.add(photoDTO);
-                }
-                postDTO.setPhotos(photoDTOList);
-            }
-            postDTOResponseList.add(postDTO);
+            postDTOResponseList.add(postMapper.apply(post));
         }
         return  new ListPostDTOResponse(postDTOResponseList);
     }

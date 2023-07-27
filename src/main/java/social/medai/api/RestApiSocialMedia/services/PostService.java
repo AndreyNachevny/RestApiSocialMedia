@@ -2,9 +2,14 @@ package social.medai.api.RestApiSocialMedia.services;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import social.medai.api.RestApiSocialMedia.dto.ListPostDTOResponse;
+import social.medai.api.RestApiSocialMedia.dto.PostDTOResponse;
 import social.medai.api.RestApiSocialMedia.exception.OperationFailed;
 import social.medai.api.RestApiSocialMedia.dto.PostDTO;
 import social.medai.api.RestApiSocialMedia.fileManager.PhotoService;
@@ -12,6 +17,7 @@ import social.medai.api.RestApiSocialMedia.models.Photo;
 import social.medai.api.RestApiSocialMedia.models.Post;
 import social.medai.api.RestApiSocialMedia.models.User;
 import social.medai.api.RestApiSocialMedia.repositories.PostRepository;
+import social.medai.api.RestApiSocialMedia.util.PostMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +30,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
+    private final PostMapper postMapper;
     @Transactional
     public void createPost(PostDTO postDTO){
         Post postToSave = modelMapper.map(postDTO,Post.class);
@@ -43,6 +50,22 @@ public class PostService {
         }
         postRepository.save(postToSave);
     }
+
+    public Page<PostDTOResponse> getLastPosts(int offset, int limit, String sort){
+        Page<Post> posts;
+        if (sort.equals("false")){
+            posts = postRepository.getPostsFromUsers(userService
+                    .getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
+                    .get().getId(), PageRequest.of(offset, limit));
+        } else {
+            posts = postRepository.getPostsFromUsers(userService
+                    .getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
+                    .get().getId(), PageRequest.of(offset, limit, Sort.by("createdAt")));
+        }
+        return posts.map(postMapper);
+    }
+
+
 
     @Transactional
     public void deletePost(int id){
