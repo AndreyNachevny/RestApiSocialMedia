@@ -1,6 +1,10 @@
 package social.medai.api.RestApiSocialMedia.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +30,7 @@ import social.medai.api.RestApiSocialMedia.util.RegistrationUserValidator;
 @RestController
 @RequestMapping("/authentication")
 @RequiredArgsConstructor
+@Tag(name = "AuthenticationController",description = "It make authentication authorization and issue of tokens ")
 public class AuthenticationController {
 
     private final AuthService authService;
@@ -34,6 +39,9 @@ public class AuthenticationController {
     private final RegistrationUserValidator registrationUserValidator;
 
 
+    @Operation(
+            summary = "Authentication of user"
+    )
     @PostMapping("/login")
     public ResponseEntity<JWTResponse> login(@RequestBody @Valid UserAuthenticationDTO userDTO,
                                              BindingResult bindingResult) throws AuthException {
@@ -42,19 +50,31 @@ public class AuthenticationController {
         return ResponseEntity.ok(token);
     }
 
+    @Operation(
+            summary = "Issues a json web token",
+            description = "Issues a JWT by refresh token"
+    )
     @PostMapping("/token")
-    public ResponseEntity<JWTResponse> token(@RequestBody @Valid RefreshJwtRequest request) throws AuthException {
+    public ResponseEntity<JWTResponse> token(@RequestBody @Valid @Parameter(description = "refresh token")RefreshJwtRequest request) throws AuthException {
         final JWTResponse response = authService.getAccessToken(request.getRefreshToken());
         return ResponseEntity.ok(response);
     }
 
+    @Operation(
+            summary = "Issues a JWT and refresh token",
+            description = "Issues refreshing JWT and refresh token by refresh token when refresh token expires "
+    )
+    @SecurityRequirement(name = "JWT")
     @PostMapping("/refresh")
-    public ResponseEntity<JWTResponse> getNewRefreshToken(@RequestBody @Valid RefreshJwtRequest request) throws AuthException {
+    public ResponseEntity<JWTResponse> getNewRefreshToken(@RequestBody @Valid @Parameter(description = "refresh token") RefreshJwtRequest request) throws AuthException {
         final JWTResponse token = authService.refresh(request.getRefreshToken());
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/registration")
+    @Operation(
+            summary = "It make registration of new users"
+    )
     public ResponseEntity<JWTResponse> registration(@RequestBody @Valid UserRegistrationDTO userDTO,
                                                     BindingResult bindingResult){
         User userToSave = converToUSer(userDTO);
@@ -64,9 +84,6 @@ public class AuthenticationController {
         final JWTResponse token = authService.registration(userToSave);
         return ResponseEntity.ok(token);
     }
-
-
-
 
     private User converToUSer(UserRegistrationDTO userDTO){
         return modelMapper.map(userDTO,User.class);
