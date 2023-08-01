@@ -34,11 +34,14 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(
                         (sm) -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ).authorizeHttpRequests(
+                )
+                .authorizeHttpRequests(
                         (auth) -> auth.requestMatchers("/authentication/login",
-                                        "authentication/token",
-                                        "authentication/registration",
-                                        "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**").permitAll()
+                                "authentication/token",
+                                "authentication/registration","/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui.html", "/swagger-resources/**",
+                                        "/webjars/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(

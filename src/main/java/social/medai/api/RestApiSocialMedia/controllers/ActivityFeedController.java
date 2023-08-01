@@ -1,12 +1,13 @@
 package social.medai.api.RestApiSocialMedia.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
+
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +28,9 @@ public class ActivityFeedController {
     )
     @SecurityRequirement(name = "JWT")
     @GetMapping
-    public ResponseEntity<?> getPosts(@RequestParam(value = "offset", defaultValue = "0")@Min(0)
-                                          @Parameter(description = "number of page ") Integer offset,
-
-                                      @RequestParam(value = "limit", defaultValue = "10")@Min(1) @Max(100)
-                                      @Parameter(description = "number of posts of page") Integer limit,
-
-                                      @RequestParam(value = "sort")
-                                          @Parameter(description = "Should there be sorting or not") String sort){
+    public ResponseEntity<?> getPosts(@RequestParam(value = "offset", defaultValue = "0")@Min(0) Integer offset,
+                                      @RequestParam(value = "limit", defaultValue = "10")@Min(1) @Max(100) Integer limit,
+                                      @RequestParam(value = "sort")String sort){
         return ResponseEntity.ok(postService.getLastPosts(offset,limit,sort));
     }
 }

@@ -2,7 +2,6 @@ package social.medai.api.RestApiSocialMedia.controllers;
 
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.security.auth.message.AuthException;
@@ -55,7 +54,7 @@ public class AuthenticationController {
             description = "Issues a JWT by refresh token"
     )
     @PostMapping("/token")
-    public ResponseEntity<JWTResponse> token(@RequestBody @Valid @Parameter(description = "refresh token")RefreshJwtRequest request) throws AuthException {
+    public ResponseEntity<JWTResponse> token(@RequestBody @Valid RefreshJwtRequest request) throws AuthException {
         final JWTResponse response = authService.getAccessToken(request.getRefreshToken());
         return ResponseEntity.ok(response);
     }
@@ -66,7 +65,7 @@ public class AuthenticationController {
     )
     @SecurityRequirement(name = "JWT")
     @PostMapping("/refresh")
-    public ResponseEntity<JWTResponse> getNewRefreshToken(@RequestBody @Valid @Parameter(description = "refresh token") RefreshJwtRequest request) throws AuthException {
+    public ResponseEntity<JWTResponse> getNewRefreshToken(@RequestBody @Valid RefreshJwtRequest request) throws AuthException {
         final JWTResponse token = authService.refresh(request.getRefreshToken());
         return ResponseEntity.ok(token);
     }
@@ -84,6 +83,9 @@ public class AuthenticationController {
         final JWTResponse token = authService.registration(userToSave);
         return ResponseEntity.ok(token);
     }
+
+
+
 
     private User converToUSer(UserRegistrationDTO userDTO){
         return modelMapper.map(userDTO,User.class);

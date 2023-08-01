@@ -63,7 +63,7 @@ public class PostsController {
     public HttpStatus updatePost(@PathVariable("id") int id,
                                  @RequestBody @Valid PostDTO postDTO,
                                  BindingResult bindingResult){
-        validatePostsSaveOrUpdate(postDTO,bindingResult);
+       // validatePostsSaveOrUpdate(postDTO,bindingResult);
         postService.updatePost(postDTO,id);
         return HttpStatus.OK;
     }
