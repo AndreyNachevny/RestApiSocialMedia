@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import social.medai.api.RestApiSocialMedia.dto.PostDTOResponse;
 import social.medai.api.RestApiSocialMedia.exception.*;
 import social.medai.api.RestApiSocialMedia.dto.PhotoDTO;
 import social.medai.api.RestApiSocialMedia.dto.PostDTO;
@@ -42,6 +43,11 @@ public class PostsController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDTOResponse> getPost(@PathVariable(value = "id",required = false) int id){
+        return ResponseEntity.ok(postService.getPost(id));
+    }
+
     @GetMapping("/user/{id}")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Issues post by Id of user")
@@ -63,7 +69,7 @@ public class PostsController {
     public HttpStatus updatePost(@PathVariable("id") int id,
                                  @RequestBody @Valid PostDTO postDTO,
                                  BindingResult bindingResult){
-       // validatePostsSaveOrUpdate(postDTO,bindingResult);
+        validatePostsSaveOrUpdate(postDTO,bindingResult);
         postService.updatePost(postDTO,id);
         return HttpStatus.OK;
     }

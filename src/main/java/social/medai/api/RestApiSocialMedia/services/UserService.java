@@ -31,7 +31,6 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
-    private final ModelMapper modelMapper;
     private final FollowerRepository followerRepository;
     private final FriendRepository friendRepository;
     private final PostMapper postMapper;

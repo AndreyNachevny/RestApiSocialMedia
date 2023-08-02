@@ -5,11 +5,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import social.medai.api.RestApiSocialMedia.dto.ListPostDTOResponse;
 import social.medai.api.RestApiSocialMedia.dto.PostDTOResponse;
+import social.medai.api.RestApiSocialMedia.exception.NotFoundException;
 import social.medai.api.RestApiSocialMedia.exception.OperationFailed;
 import social.medai.api.RestApiSocialMedia.dto.PostDTO;
 import social.medai.api.RestApiSocialMedia.fileManager.PhotoService;
@@ -86,6 +88,11 @@ public class PostService {
         Post postToUpdate = modelMapper.map(postDTO,Post.class);
         postToUpdate.setId(id);
         postToUpdate.setCreatedAt(postFromDatabase.getCreatedAt());
+        postToUpdate.setUser(postFromDatabase.getUser());
         postRepository.save(postToUpdate);
+    }
+
+    public PostDTOResponse getPost(int id) {
+        return postMapper.apply(postRepository.getPostById(id).orElseThrow(() -> new NotFoundException("Post with id not exists")));
     }
 }

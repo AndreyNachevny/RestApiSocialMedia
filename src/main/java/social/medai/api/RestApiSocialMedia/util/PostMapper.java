@@ -1,13 +1,9 @@
 package social.medai.api.RestApiSocialMedia.util;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.CompositeTypeRegistration;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import social.medai.api.RestApiSocialMedia.dto.PhotoDTO;
-import social.medai.api.RestApiSocialMedia.dto.PostDTO;
 import social.medai.api.RestApiSocialMedia.dto.PostDTOResponse;
 import social.medai.api.RestApiSocialMedia.fileManager.PhotoService;
 import social.medai.api.RestApiSocialMedia.models.Photo;
