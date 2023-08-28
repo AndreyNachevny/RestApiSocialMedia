@@ -10,7 +10,7 @@ ___
 * Lombock, Swagger UI
 * Docker, Maven
 ___
-## Instalation
+## Installation
 **Docker:**
 ```
 docker pull andreynachevny/socialmediarest:latest
